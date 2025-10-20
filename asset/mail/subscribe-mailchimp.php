@@ -2,10 +2,10 @@
   require_once("lib/mailchimp-api.php");
 
   // ENTER YOUR MAILCHIMP API KEY IN FIRST BLOCK
-  define('MAILCHIMP_API_KEY', '66a59c4e08b4b2979a15c5f9afd358d4-us3');
+  // define('MAILCHIMP_API_KEY', '66a59c4e08b4b2979a15c5f9afd358d4-us3');
   
   // ENTER LIST ID THO WHICH VISITORS ARE SUBSCRIBING
-  define('MAILCHIMP_LIST_NAME', 'f1fb64d962');
+  // define('MAILCHIMP_LIST_NAME', 'f1fb64d962');
 
   ob_start();
 

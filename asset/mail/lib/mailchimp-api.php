@@ -36,7 +36,7 @@ class MailChimp
      */
     private function makeRequest($method, $args=array())
     {      
-        $args['apikey'] = $this->api_key;
+        // $args['apikey'] = $this->api_key;
 
         $url = $this->api_endpoint.'/'.$method.'.json';
 
