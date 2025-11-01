@@ -121,28 +121,22 @@
                 <div class="sidebar-social">
                     <div class="heading text-body-1 dot-before">Social Network</div>
                     <ul class="social-links">
-                        <ul class="social-icons">
-                           
-                            <li>
-                                <a href="https://www.instagram.com/rmihir.10/" target="_blank"
-                                    rel="noopener noreferrer">
-                                    <i class="fa-brands fa-instagram"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://www.facebook.com/mihir.rana.779" target="_blank"
-                                    rel="noopener noreferrer">
-                                    <i class="fa-brands fa-facebook-f"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://www.linkedin.com/in/mihir-rana-024016186/" target="_blank"
-                                    rel="noopener noreferrer">
-                                    <i class="fa-brands fa-linkedin-in"></i>
-                                </a>
-                            </li>
-                        </ul>
-
+                        <li>
+                            <a href="https://www.linkedin.com/in/mihir-rana-024016186/" target="_blank"
+                                rel="noopener noreferrer">
+                                <i class="icon icon-linkedin-in"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.instagram.com/rmihir.10/" target="_blank" rel="noopener noreferrer">
+                                <i class="icon icon-instagram"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.facebook.com/mihir.rana.779" target="_blank" rel="noopener noreferrer">
+                                <i class="icon icon-facebook-f"></i>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -1376,6 +1370,44 @@
             } else {
                 msg.textContent = "❌ Something went wrong. Please try again.";
             }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const tfBtnMenu = document.querySelector('.tf-btn-menu');
+            const tfSidebarMenu = document.querySelector('.tf-sidebar-menu');
+            const closeCanvas = document.querySelector('.tf-sidebar-menu .close-canvas');
+            const overlay = document.querySelector('.tf-sidebar-menu .overlay');
+
+            // Open sidebar menu
+            tfBtnMenu.addEventListener('click', function () {
+                tfSidebarMenu.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            });
+
+            // Close sidebar menu
+            function closeSidebar() {
+                tfSidebarMenu.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+
+            // Close when clicking close button
+            closeCanvas.addEventListener('click', closeSidebar);
+
+            // Close when clicking overlay
+            overlay.addEventListener('click', closeSidebar);
+
+            // Close when clicking menu links (optional)
+            const menuLinks = document.querySelectorAll('.sidebar-nav a');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', closeSidebar);
+            });
+
+            // Close with Escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && tfSidebarMenu.classList.contains('active')) {
+                    closeSidebar();
+                }
+            });
         });
     </script>
 
