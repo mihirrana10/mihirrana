@@ -32,6 +32,34 @@
     <!-- Favicon and Touch Icons  -->
     <link rel="shortcut icon" href="asset/images/logo/favicon.png">
     <link rel="apple-touch-icon-precomposed" href="asset/images/logo/favicon.png">
+    <!-- Premium Dark Grid Backdrop Styles -->
+    <style>
+        .dark-grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000000;
+            z-index: -50;
+            overflow: hidden;
+        }
+        .dark-grid-bg::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 45px 45px;
+            /* illuminated mouse tracking spotlight */
+            mask-image: radial-gradient(circle 200px at var(--mouse-x, -1000px) var(--mouse-y, -1000px), black 10%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle 200px at var(--mouse-x, -1000px) var(--mouse-y, -1000px), black 10%, transparent 80%);
+        }
+    </style>
 
 </head>
 
@@ -39,9 +67,8 @@
     <!-- Start Wrapper -->
     <div id="wrapper">
 
-        <video class="body-overlay" muted autoplay loop playsinline>
-            <source src="asset/images/bg-3d/video1.mp4" type="video/mp4">
-        </video>
+        <!-- Solid Black Background with Interactive Dark Grid -->
+        <div class="dark-grid-bg"></div>
 
         <!-- tf-btn-menu -->
         <div class="tf-btn-menu">
@@ -172,11 +199,11 @@
 
                         <h6 class="title">THREE DIMENSIONAL SHAPES</h6>
                         <ul class="settings-themes">
-                            <li><a href="index.html" class="active">Water Waves</a></li>
-                            <li><a href="home-v2.html">3D Abstract Ball</a></li>
-                            <li><a href="home-v4.html">Earth Lines Sphere</a></li>
-                            <li><a href="home-v5.html">Solid Color</a></li>
-                            <li><a href="home-v6.html">Simple Strings</a></li>
+                            <li><a href="javascript:void(0);" data-video="video3.mp4">Water Waves</a></li>
+                            <li><a href="javascript:void(0);" data-video="video2.mp4" class="active">3D Abstract Ball</a></li>
+                            <li><a href="javascript:void(0);" data-video="video1.mp4">Earth Lines Sphere</a></li>
+                            <li><a href="javascript:void(0);" data-video="none">Solid Color Only</a></li>
+                            <li><a href="javascript:void(0);" data-video="video5.mp4">Simple Strings</a></li>
                         </ul>
                     </div>
                 </div>
@@ -1412,7 +1439,7 @@
             // --- Interactive Node-Constellation Particle Canvas Backdrop ---
             const canvas = document.createElement('canvas');
             canvas.id = 'bg-canvas';
-            document.getElementById('wrapper').insertBefore(canvas, document.querySelector('.body-overlay'));
+            document.getElementById('wrapper').insertBefore(canvas, document.querySelector('.dark-grid-bg'));
 
             const style = document.createElement('style');
             style.innerHTML = `
@@ -1424,10 +1451,6 @@
                     height: 100vh;
                     z-index: -45;
                     pointer-events: none;
-                }
-                .body-overlay {
-                    opacity: 0.55 !important;
-                    transition: opacity 0.5s ease;
                 }
             `;
             document.head.appendChild(style);
@@ -1447,6 +1470,8 @@
             window.addEventListener('mousemove', (e) => {
                 mouse.x = e.clientX;
                 mouse.y = e.clientY;
+                document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
+                document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
             });
 
             window.addEventListener('mouseout', () => {
@@ -1518,6 +1543,75 @@
                 requestAnimationFrame(animate);
             }
             animate();
+
+
+            // --- Works Pagination & Category Filters ---
+            const filterButtons = document.querySelectorAll('.works-filter-bar .filter-btn');
+            const projectCards = document.querySelectorAll('.works-wrap .works-item');
+            const loadMoreBtn = document.getElementById('works-load-more');
+
+            let currentFilter = 'all';
+            let visibleLimit = 6;
+            const itemsPerLoad = 6;
+
+            function filterProjects() {
+                let matchCount = 0;
+
+                projectCards.forEach(card => {
+                    const category = card.getAttribute('data-category');
+                    const matchesFilter = (currentFilter === 'all' || category === currentFilter);
+
+                    if (matchesFilter) {
+                        matchCount++;
+                        if (matchCount <= visibleLimit) {
+                            card.style.display = 'flex';
+                            card.style.opacity = '1';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                const totalFiltered = Array.from(projectCards).filter(card => {
+                    return currentFilter === 'all' || card.getAttribute('data-category') === currentFilter;
+                }).length;
+
+                if (loadMoreBtn) {
+                    if (visibleLimit >= totalFiltered) {
+                        loadMoreBtn.style.display = 'none';
+                    } else {
+                        loadMoreBtn.style.display = 'inline-flex';
+                    }
+                }
+            }
+
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterButtons.forEach(b => {
+                        b.classList.remove('active');
+                        b.style.background = 'none';
+                        b.style.color = '#aaa';
+                    });
+                    btn.classList.add('active');
+                    btn.style.background = 'rgba(255, 255, 255, 0.03)';
+                    btn.style.color = '#fff';
+
+                    currentFilter = btn.getAttribute('data-filter');
+                    visibleLimit = 6;
+                    filterProjects();
+                });
+            });
+
+            if (loadMoreBtn) {
+                loadMoreBtn.addEventListener('click', () => {
+                    visibleLimit += itemsPerLoad;
+                    filterProjects();
+                });
+            }
+
+            filterProjects();
         });
     </script>
 
