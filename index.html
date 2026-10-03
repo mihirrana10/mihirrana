@@ -32,7 +32,7 @@
     <!-- Favicon and Touch Icons  -->
     <link rel="shortcut icon" href="asset/images/logo/favicon.png">
     <link rel="apple-touch-icon-precomposed" href="asset/images/logo/favicon.png">
-    <!-- Premium Dark Grid Backdrop Styles -->
+    <!-- Premium Dark Grid Backdrop Styles & Mobile Scroll Fix -->
     <style>
         .dark-grid-bg {
             position: fixed;
@@ -43,6 +43,7 @@
             background-color: #000000;
             z-index: -50;
             overflow: hidden;
+            pointer-events: none !important;
         }
         .dark-grid-bg::after {
             content: "";
@@ -58,6 +59,50 @@
             /* illuminated mouse tracking spotlight */
             mask-image: radial-gradient(circle 200px at var(--mouse-x, -1000px) var(--mouse-y, -1000px), black 10%, transparent 80%);
             -webkit-mask-image: radial-gradient(circle 200px at var(--mouse-x, -1000px) var(--mouse-y, -1000px), black 10%, transparent 80%);
+            pointer-events: none !important;
+        }
+
+        .tf-sidebar-menu:not(.active) {
+            pointer-events: none !important;
+            visibility: hidden !important;
+        }
+        .tf-sidebar-menu.active {
+            pointer-events: auto !important;
+        }
+
+        /* Mobile Scroll & Touch Trapping Fix */
+        @media (max-width: 1200px) {
+            html, body {
+                overflow-x: hidden !important;
+                overflow-y: auto !important;
+                height: auto !important;
+                min-height: 100% !important;
+                -webkit-overflow-scrolling: touch !important;
+                touch-action: pan-y !important;
+            }
+
+            #wrapper {
+                overflow: visible !important;
+                overflow-x: clip !important;
+                position: relative !important;
+                height: auto !important;
+                min-height: 100% !important;
+            }
+
+            .left-sidebar {
+                position: static !important;
+                transform: none !important;
+                max-height: none !important;
+                height: auto !important;
+                overflow: visible !important;
+                overflow-y: visible !important;
+                touch-action: pan-y !important;
+            }
+
+            .main-content {
+                overflow: visible !important;
+                touch-action: pan-y !important;
+            }
         }
     </style>
 

@@ -2208,6 +2208,7 @@ header .mobile-menu {
   z-index: 99;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -ms-transition: all 0.3s ease;
@@ -2219,6 +2220,7 @@ header .mobile-menu {
 .tf-sidebar-menu.active {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
 .tf-sidebar-menu.active .sidebar-menu-inner {
@@ -4659,6 +4661,10 @@ header .mobile-menu {
     position: unset;
     transform: none;
     max-width: 66.66666667%;
+    max-height: none !important;
+    overflow: visible !important;
+    overflow-y: visible !important;
+    touch-action: pan-y !important;
     margin-top: 15px;
     margin-left: auto;
     margin-right: auto;
@@ -4784,6 +4790,10 @@ header .mobile-menu {
 
   .left-sidebar {
     max-width: 100%;
+    max-height: none !important;
+    overflow: visible !important;
+    overflow-y: visible !important;
+    touch-action: pan-y !important;
     margin-left: 15px;
     margin-right: 15px;
   }
